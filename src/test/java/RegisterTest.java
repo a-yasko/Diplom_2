@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static steps.Steps.*;
+import static steps.Steps.createUser;
 
 public class RegisterTest {
   @Before
@@ -16,18 +17,10 @@ public class RegisterTest {
   }
 
   @Test
-  @DisplayName("Create user")
-  public void createUser() {
-    String email = RandomStringUtils.randomAlphabetic(10) + "@test.ru";
-    String password = RandomStringUtils.randomAlphabetic(10);
-    String name = RandomStringUtils.randomAlphabetic(10);
+  @DisplayName("Create user with valid params")
+  public void createUserWithValidParams() {
+    String accessToken = createUser();
 
-    User user = new User(email, password, name);
-    Response response = doPostRequest(user, "/api/auth/register");
-    checkStatusCode(response, 200);
-    checkResponseBody(response, "success", true);
-
-    String accessToken = response.path("accessToken");
     deleteUser(accessToken);
   }
 
