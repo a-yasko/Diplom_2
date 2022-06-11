@@ -7,13 +7,14 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
 
-import static steps.Steps.*;
-import static steps.Steps.createUser;
+import static steps.BaseSteps.*;
+import static steps.CommonSteps.createUser;
+import static steps.CommonSteps.deleteUser;
 
 public class RegisterTest {
   @Before
   public void setUp() {
-    RestAssured.baseURI = BaseHttpClient.getBASE_URL();
+    RestAssured.baseURI = BaseHttpClient.getBaseUrl();
   }
 
   @Test

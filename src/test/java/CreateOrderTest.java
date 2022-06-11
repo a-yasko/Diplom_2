@@ -8,24 +8,20 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static steps.Steps.*;
-import static steps.Steps.createOrder;
+import static data.TestData.*;
+import static steps.BaseSteps.*;
+import static steps.CommonSteps.*;
 
 public class CreateOrderTest {
   @Before
   public void setUp() {
-    RestAssured.baseURI = BaseHttpClient.getBASE_URL();
+    RestAssured.baseURI = BaseHttpClient.getBaseUrl();
   }
 
   @Test
   @DisplayName("Create order without authorization")
   public void createOrderWithoutAuth() {
-    List<String> ingredients = List.of(
-            "61c0c5a71d1f82001bdaaa6d",
-            "61c0c5a71d1f82001bdaaa6f"
-    );
-
-    createOrder(ingredients);
+    createOrder(getIngredientKit1());
   }
 
   @Test
@@ -40,7 +36,7 @@ public class CreateOrderTest {
   @Test
   @DisplayName("Create order without authorization and with invalid hash")
   public void createOrderWithoutAuthAndWithInvalidHash() {
-    Order order = new Order(List.of("61c0c5a71d1f82001bdaaa6d1", "61c0c5a71d1f82001bdaaa6f1"));
+    Order order = new Order(getIngredientWithInvalidHash());
     Response response = doPostRequest(order, "/api/orders");
     checkStatusCode(response, 500);
   }
@@ -50,13 +46,7 @@ public class CreateOrderTest {
   public void createOrderWithAuth() {
     String accessToken = createUser();
 
-    List<String> ingredients = List.of(
-            "61c0c5a71d1f82001bdaaa6d",
-            "61c0c5a71d1f82001bdaaa71",
-            "61c0c5a71d1f82001bdaaa72"
-    );
-
-    createOrder(ingredients, accessToken);
+    createOrder(getIngredientKit2(), accessToken);
 
     deleteUser(accessToken);
   }
@@ -79,7 +69,7 @@ public class CreateOrderTest {
   public void createOrderWithAuthAndWithInvalidHash() {
     String accessToken = createUser();
 
-    Order order = new Order(List.of("61c0c5a71d1f82001bdaaa6d1", "61c0c5a71d1f82001bdaaa6f1"));
+    Order order = new Order(getIngredientWithInvalidHash());
     Response createOrder = doPostRequest(order, "/api/orders", accessToken);
     checkStatusCode(createOrder, 500);
 

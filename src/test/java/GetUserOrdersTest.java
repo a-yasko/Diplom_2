@@ -5,14 +5,14 @@ import io.restassured.response.Response;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.List;
-
-import static steps.Steps.*;
+import static data.TestData.getIngredientKit2;
+import static steps.BaseSteps.*;
+import static steps.CommonSteps.*;
 
 public class GetUserOrdersTest {
   @Before
   public void setUp() {
-    RestAssured.baseURI = BaseHttpClient.getBASE_URL();
+    RestAssured.baseURI = BaseHttpClient.getBaseUrl();
   }
 
   @Test
@@ -28,13 +28,7 @@ public class GetUserOrdersTest {
   public void getOrdersWithAuth() {
     String accessToken = createUser();
 
-    List<String> ingredients = List.of(
-            "61c0c5a71d1f82001bdaaa6d",
-            "61c0c5a71d1f82001bdaaa71",
-            "61c0c5a71d1f82001bdaaa72"
-    );
-
-    createOrder(ingredients, accessToken);
+    createOrder(getIngredientKit2(), accessToken);
 
     Response response = doGetRequest("/api/orders", accessToken);
     checkStatusCode(response, 200);

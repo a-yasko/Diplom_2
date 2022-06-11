@@ -4,7 +4,7 @@ public class BaseHttpClient {
 
   private static String BASE_URL = "https://stellarburgers.nomoreparties.site/";
 
-  public static String getBASE_URL() {
+  public static String getBaseUrl() {
     return BASE_URL;
   }
 }
